@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="1.6.0" client="site" method="upgrade">
+	<name>JUserTube</name> 
+	<author>Md. Afzal Hossain</author> 
+	<creationDate>May 2012</creationDate>
+	<copyright>All rights reserved by Afzal</copyright> 
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>afzal.csedu@gmail.com</authorEmail> 
+	<authorUrl>http://www.srizon.com</authorUrl>
+	<version>7.0.0</version> 
+	<description>এই মডিউলটি অনেক ভালো</description>
+	<files>
+		<filename module="mod_jusertube">mod_jusertube.php</filename>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<filename>cookie.txt</filename>
+		<filename>mycurl.php</filename>
+        <folder>layouts</folder>
+		<folder>savedxml</folder>
+	</files>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="userorplaylist" type="list" default="user" label="Video Source" description="">
+					<option value1="user">1. Youtube Channel's/User's Uploads</option>
+					<option value1="favourites">2. Youtube Channel's/User's Favorites</option>
+					<option value1="usersub">3. Youtube Channel's/User's Subscribed Videos (100 Max)</option>
+					<option value1="playlist">4. Youtube Playlist</option>
+				</field>
+				<field name="youtubeuser" type="text" default="" label="Channel/User Name (For #1 or #2 or #3):" description="Go to your channel and you can find the channel name from the URL. For example if the url is https://www.youtube.com/user/trailers then your channel name is ClevverMovies" />
+				<field name="youtubeuserpl" type="text" size="40" default="" label="Youtube Playlist ID (For #4):" description="If the url of the playlist is http://www.youtube.com/playlist?list=PL2728B2BED81A1B54 then the ID is PL2728B2BED81A1B54" />
+				
+				<field name="plsortorder" type="list" default="published" label="Order by (only for Youtube Playlist ):" description="If your using the palylist option then set the sorting order here. After changing this value you'll have to re-sync.">
+					<option value="position">Position on the list</option>
+					<option value="positionr">Position on the list - Reversed</option>
+					<option value="published">Published</option>
+					<option value="viewCount">View Count</option>
+					<option value="commentCount">Comment Count</option>
+					<option value="duration">Duration</option>
+					<option value="title">Video Title</option>
+				</field>
+				
+				<field name="updatefeed" type="list" default="600" label="Sync with youtube after every:" description="Don't set it too small unless you frequently upload videos.">
+					<option value="30">30 Min</option>
+					<option value="60">1 Hour</option>
+					<option value="300">5 Hour</option>
+					<option value="600">10 Hour</option>
+					<option value="1440">1 day</option>
+					<option value="10080">1 week</option>
+				</field>
+				
+				<field type="spacer" hr="true" />
+				<field name="totalvideo" type="text" default="24" label="Number of Videos" description="Total number of videos links to display" />
+				
+				<field name="totalvideop" type="list" default="50" label="Videos to sync" description="Total number of videos that need to be synced with youtube. Setting it too high may cause server timeout while synchronizing (depends on your server speed). After chaning this value you'll need a re-sync.">
+					<option value="50">50</option>
+					<option value="100">100</option>
+					<option value="150">150</option>
+					<option value="200">200</option>
+					<option value="300">300</option>
+					<option value="400">400</option>
+					<option value="500">500</option>
+					<option value="600">600</option>
+					<option value="800">800</option>
+					<option value="1000">1000</option>
+				</field>
+				
+				<field name="liststyle" type="list" default="respslider" label="Layout (Set related options)" description="How do you want to list the thumbs. According to your selection also set the related options on other tabs of this module's parameter">
+					<option value="respslider">Responsive Slider</option>
+					<option value="respsliderbox">Responsive Slider Box</option>
+					<option value="horizontal">Thumb Grid</option>
+					<option value="withdescription">Thumb with Description</option>
+				</field>
+
+			</fieldset>
+			
+			<fieldset name="thumbgrid" label="Thumb Grid">
+				<field type="spacer" label="&lt;b&gt;Thumb Grid Layout Related Options&lt;/b&gt;" />
+                <field name="thumbsinarowl" type="list" default="3" label="Thumbs in a Row (large display)" description="Thumbnails to display in one row (on larger display)">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</field>
+				
+				<field name="thumbsinarows" type="list" default="1" label="Thumbs in a Row (small display)" description="Thumbnails to display in one row (on small display - Responsive template)">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</field>
+				
+				<field name="thumbpadding" type="list" default="7" label="Thumb Padding">
+					<option value="2">2px</option>
+					<option value="3">3px</option>
+					<option value="5">5px</option>
+					<option value="7">7px</option>
+					<option value="10">10px</option>
+				</field>
+				
+				<field name="showtitlethumb" type="radio" default="yes" label="Show title under thumb?">
+					<option value="yes">Yes</option>
+					<option value="no">No</option>
+				</field>
+				
+				<field name="titlethumb_height" type="text" default="50" label="Height of the title under thumb" description="Height of the title under thumb." />
+				
+            </fieldset>            
+			
+			<fieldset name="thumbdesc" label="Thumb with Description">
+				<field type="spacer" label="&lt;b&gt;Thumb with Description Layout Related Options&lt;/b&gt;" />
+				<field name="ratioclass" type="list" default="ratio3565" label="Thumb/Description Ratio" description="Thumb/Description Ratio. On smaller display Description will go below thumb">
+					<option value="ratio2080">20-80</option>
+					<option value="ratio2575">25-75</option>
+					<option value="ratio3565">35-65</option>
+					<option value="ratio5050">50-50</option>
+					<option value="ratio100">Description below thumb</option>
+				</field>
+				<field name="truncate_len2" type="text" default="300" label="Truncate description after X character" />	
+			</fieldset>
+			
+			<fieldset name="thumbgriddesccommon" label="Common">
+				<field type="spacer" label="&lt;b&gt;Common Options for both Thumb Grid and Thumb with Description Layout&lt;/b&gt;" />
+				<field name="truncate_len" type="text" default="" label="Truncate title after X character" />
+				<field name="roundingclass" type="list" default="rounding7" label="Thumbnail Corner Rounding" description="Thumbnail Corner Rounding">
+					<option value="rounding3">3px</option>
+					<option value="rounding5">5px</option>
+					<option value="rounding7">7px</option>
+					<option value="rounding10">10px</option>
+					<option value="rounding0">No Rounding</option>
+				</field>
+				
+				<field name="shadowclass" type="list" default="shadow10d" label="Thumbnail Shadow" description="Thumbnail Shadow">
+					<option value="shadow10l">10px Light</option>
+					<option value="shadow5l">5px Light</option>
+					<option value="shadow10d">10px Dark</option>
+					<option value="shadow5d">5px Dark</option>
+					<option value="shadow0">No Shadow</option>
+				</field>
+				
+				<field name="vidicon" label="Show Overlay Video Icon" type="radio" default="yes">
+					<option value="yes">Yes</option>
+					<option value="no">No</option>
+				</field>
+			</fieldset>
+			<fieldset name="respsliderset" label="Responsive Slider">
+				<field type="spacer" label="&lt;b&gt;Responsive Slider Layout Related Options&lt;/b&gt;" />
+				<field name="respslidespeed" type="text" default="500" label="Sliding duration in millisec (increase for slower slide)" description="" />
+				<field name="respslideminitem" type="text" default="2" label="Minimum Thumbs to show" description="When the screen is bigger it will fit as many images as possible. On smaller screen it will try to show at least # number of images by reducing the thumb size. # = value of this parameter" />
+				<field name="respslidestart" type="text" default="0" label="Initially Start slider at thumb number #" description="This determines where the leftmost thumb of the slider. 0 means it will show the slider from the first thumb." />
+				<field name="respslidescale" type="list" default="3" label="Size of the thumb (if space allows)" description="">
+					<option value="1">As big as possible</option>
+					<option value="2">Big</option>
+					<option value="3">Normal</option>
+					<option value="4">Small</option>
+					<option value="5">Very Small</option>
+					<option value="6">Very Very Small</option>
+				</field>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="moduleclass_sfx"
+					type="textarea" rows="3"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field
+					name="cache"
+					type="list"
+					default="1"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option
+						value="1">JGLOBAL_USE_GLOBAL</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+				<field
+					name="cache_time"
+					type="text"
+					default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+				<field
+					name="cachemode"
+					type="hidden"
+					default="static">
+					<option
+						value="static"></option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
